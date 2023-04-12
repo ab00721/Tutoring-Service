@@ -7,7 +7,16 @@ class Diner {
      * @return array with hours 
      */
     public function getHours() {
-       
+       $hours = array(
+            array('day' => 'Sunday', 'times' => 'closed'), 
+            array('day' => 'Monday', 'times' => 'closed'), 
+            array('day' => 'Tuesday', 'times' => '11am - 2pm'), 
+            array('day' => 'Wednesday', 'times' => '11am - 2pm'),
+            array('day' => 'Thursday', 'times' => '11am - 2pm'), 
+            array('day' => 'Friday', 'times' => '11am - 2pm'), 
+            array('day' => 'Saturday', 'times' => '11am - 2pm')
+        );
+        return $hours;
     }
     
     /**
