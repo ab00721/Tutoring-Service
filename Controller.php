@@ -20,6 +20,9 @@ class Controller
             case 'Home':
                 $this->processShowHome();
                 break;
+            case 'Hours':
+                $this->processShowHours();
+                break;
             case 'Menu':
                 $this->processShowMenu();
                 break;
@@ -35,6 +38,15 @@ class Controller
     private function processShowHome() {
         $template = $this->twig->load('home.twig');
         echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the hours page
+     */
+    private function processShowHours() {
+        $hours = $this->diner->getHours();
+        $template = $this->twig->load('hours.twig');
+        echo $template->render(['hours' => $hours]);
     }
     
     /**
