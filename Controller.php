@@ -26,10 +26,10 @@ class Controller
             case 'Services':
                 $this->processShowServices();
                 break;
-            case 'PriceQuote':
+            case 'Price Quote':
                 $this->processShowPriceQuote();
                 break;
-            case 'SignUp':
+            case 'Sign Up':
                 $this->processShowSignUp();
                 break;
             default:
