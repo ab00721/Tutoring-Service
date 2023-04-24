@@ -10,10 +10,9 @@
   <section class="bg-light py-5 border-bottom">
     <div class="container px-5 my-5">
       <div class="text-center mb-5">
-        <h2 class="fw-bolder">Sign Up for Bright Minds Tutoring</h2>
+        <h2 class="fw-bolder">Sign Up for Weekly Sessions</h2>
         <p class="lead mb-0">Fill out an intake form and one of our tutors will contact you to
           schedule your first session.
-          <br>Required information is marked with an asterisk (*).
         </p>
       </div>
       <div class="row gx-5 justify-content-center">
@@ -24,94 +23,60 @@
             <form class="was-validated" method="post" action="submit.html">
 
               <fieldset class="border bg-white px-5 py-3 mb-5">
-                <legend>Parent Info</legend>
-                <div class="mb-3 mt-3">
-                  <label for="pnameField" class="form-label"> * Parent Name: </label>
-                  <input type="text" class="form-control" id="pnameField" name="pnameField" required>
-                  <div class="invalid-feedback">Please enter your name.</div>
-                </div>
                 <div class="mb-3">
-                  <label for="emailField" class="form-label">* Parent E-mail: </label>
-                  <input type="email" class="form-control" id="emailField" name="emailField" required>
-                  <div class="invalid-feedback">Please enter your email.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="border bg-white px-5 py-3 mb-5">
-                <legend>Student Info</legend>
-                <div class="mb-3">
-                  <label for="snameField" class="form-label"> * Student Name: </label>
-                  <input type="text" class="form-control" id="snameField" name="snameField" required>
-                  <div class="invalid-feedback">Please enter the students name.</div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="gradeField" class="form-label"> * Student Grade Level: </label>
-                  <select class="form-select" id="gradeField" aria-label="Selct Grade" required>
+                  <label for="snameField" class="form-label">Student Name: </label>
+                  <input type="text" class="form-control" id="snameField" name="snameField">
+                  <br>
+                
+                  <label for="gradeField" class="form-label">Student Grade Level: </label>
+                  <select class="form-select" id="gradeField" aria-label="Selct Grade">
                     <option value="">Grade Level</option>
                     <option value="1">K-5</option>
                     <option value="2">6-8</option>
                     <option value="3">9-12</option>
                     <option value="3">college</option>
                   </select>
-                  <div class="invalid-feedback">Please select grade level.</div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="subjectField" class="form-label"> * Subject: </label>
-                  <select class="form-select" id="subjectField" aria-label="Select Subject" required>
+                  <br>
+                
+                  <label for="subjectField" class="form-label">Subject: </label>
+                  <select class="form-select" id="subjectField" aria-label="Select Subject">
                     <option value="">Subject</option>
                     <option value="1">Math</option>
                     <option value="2">Chemistry</option>
                     <option value="3">Biology</option>
                     <option value="3">Physics</option>
                   </select>
-                  <div class="invalid-feedback">Please select subject.</div>
-                </div>
-              </fieldset>
-
-              <fieldset class="border bg-white px-5 py-3 mb-5">
-                <legend>Session Info</legend>
-                <div class="mb-3">
+                  <br>
+                  
                   <label for="dateField" class="form-label">Start Date: </label>
                   <input type="date" class="form-control" id="dateField" name="dateField">
-                </div>
-                <div class="mb-3">
-                  <label for="serviceRadio1" class="form-label">* Service: </label>
+                  <br>
+                  
+                  <label for="serviceRadio1" class="form-label">Service: </label>
 
                   <div class="form-check" id="radioSelection">
-                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio1" value="inperson"
-                      required>
+                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio1" value="inperson">
                     <label class="form-check-label" for="serviceRadio1">
                       In-Person
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio2" value="online"
-                      required>
+                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio2" value="online">
                     <label class="form-check-label" for="serviceRadio2">
                       Online
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio3"
-                      value="groupSession" required>
+                    <input class="form-check-input" type="radio" name="serviceRadio" id="serviceRadio3" value="groupSession">
                     <label class="form-check-label" for="serviceRadio3">
                       Group Sessions
                     </label>
-                    <div class="invalid-feedback">Please select service type.</div>
                   </div>
-                </div>
-                <div class="mb-3">
-                  <label for="commentsField" class="form-label"> Comments: </label>
-                  <textarea id="commentsField" class="form-control" name="commentsField" rows="2" cols="20"></textarea>
-                </div>
+                  <br>
+                  
+                  <input type="submit" id="submit" class="btn btn-secondary" value="Sign Up" name="action">
+
               </fieldset>
-
-              <div class="mb-3">
-                <button type="submit" id="submit" class="btn btn-secondary">Submit</button>
-              </div>
-
             </form>
           </div>
         </div>

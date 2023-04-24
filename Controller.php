@@ -29,14 +29,17 @@ class Controller
             case 'Price Quote':
                 $this->processShowPriceQuote();
                 break;
-            case 'Sign Up':
-                $this->processShowSignUp();
-                break;
             case 'Register':
                 $this->processShowRegister();
                 break;
             case 'Login':
                 $this->processShowLogin();
+                break;
+            case 'Sign Up':
+                $this->processShowSignUp();
+                break;
+            case 'Logout':
+                $this->processLogout();
                 break;
             default:
                 $this->processShowHome();
@@ -77,14 +80,6 @@ class Controller
     }
     
     /**
-     * Handles the request to show the signup page
-     */
-    private function processShowSignUp() {
-        $template = $this->twig->load('signup.twig');
-        echo $template->render();
-    }
-    
-    /**
      * Handles the request to show the register page
      */
     private function processShowRegister() {
@@ -96,6 +91,22 @@ class Controller
      * Handles the request to show the login page
      */
     private function processShowLogin() {
+        $template = $this->twig->load('login.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the signup page
+     */
+    private function processShowSignUp() {
+        $template = $this->twig->load('signup.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to logout
+     */
+    private function processLogout() {
         $template = $this->twig->load('login.twig');
         echo $template->render();
     }
