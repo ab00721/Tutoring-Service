@@ -20,11 +20,17 @@ class Controller
             case 'Home':
                 $this->processShowHome();
                 break;
-            case 'Hours':
-                $this->processShowHours();
+            case 'Tutors':
+                $this->processShowTutors();
                 break;
-            case 'Menu':
-                $this->processShowMenu();
+            case 'Services':
+                $this->processShowServices();
+                break;
+            case 'PriceQuote':
+                $this->processShowPriceQuote();
+                break;
+            case 'SignUp':
+                $this->processShowSignUp();
                 break;
             default:
                 $this->processShowHome();
@@ -41,22 +47,35 @@ class Controller
     }
     
     /**
-     * Handles the request to show the hours page
+     * Handles the request to show the tutors page
      */
-    private function processShowHours() {
-        $hours = $this->diner->getHours();
-        $template = $this->twig->load('hours.twig');
-        echo $template->render(['hours' => $hours]);
+    private function processShowTutors() {
+        $template = $this->twig->load('tutors.twig');
+        echo $template->render();
     }
     
     /**
-     * Handles the request to show the menu page
+     * Handles the request to show the services page
      */
-    private function processShowMenu() {
-        $menu = $this->diner->getMenu();
-        $special = $this->diner->getSpecial();
-        $template = $this->twig->load('menu.twig');
-        echo $template->render(['special' => $special, 'menu' => $menu]);
+    private function processShowServices() {
+        $template = $this->twig->load('services.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the pricequote page
+     */
+    private function processShowPriceQuote() {
+        $template = $this->twig->load('pricequote.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the signup page
+     */
+    private function processShowSignUp() {
+        $template = $this->twig->load('signup.twig');
+        echo $template->render();
     }
     
     /**

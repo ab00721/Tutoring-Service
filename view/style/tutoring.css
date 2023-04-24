@@ -1,0 +1,40 @@
+.display-none {
+    display: none;
+}
+
+#price-button {
+    width: 100%;
+    font-size: 1em;
+    color: #666666;
+    background-color: #EEEEEE;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+td {
+    padding-left: 30px;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #000000;
+    background-color: rgb(88, 88, 88);
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.feature {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 4rem;
+    font-size: 2rem;
+}
+
+.error {
+    color: red;
+}
