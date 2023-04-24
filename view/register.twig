@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+{{ include('shared/header.twig') }}
+
+<body>
+    {{ include('shared/nav.twig') }}
+
+<main>
+    
+    <!-- Form section-->
+  <section class="bg-light py-5 border-bottom">
+    <div class="container px-5 my-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bolder">Sign Up for Bright Minds Tutoring</h2>
+        <p class="lead mb-0">Create an account to login and sign your student up for services.
+        </p>
+      </div>
+      <div class="row gx-5 justify-content-center">
+        <div class="flex-shrink-0">
+          <div class="container">
+
+
+            <form action="." method="post" id="login_form" class="aligned">
+
+              <fieldset class="border bg-white px-5 py-3 mb-5">
+                <div class="mb-3 mt-3">
+                    
+                    <label for="username" class="form-label">Username: </label>
+                    <input type="text" class="form-control" id ="username" name="username">
+                    {{ error_username }}
+                    <br>
+                    
+                    <label for="password" class="form-label">Password: </label>
+                    <input type="text" class="form-control" id ="password" name="password">
+                    {{ error_password }}
+                    <br>
+                    
+                    <label for="studentName" class="form-label">Student Name: </label>
+                    <input type="text" class="form-control" id ="studentName" name="studentName">
+                    <br>
+                    
+                    <label for="parentName" class="form-label">Parent Name: </label>
+                    <input type="text" class="form-control" id="parentName" name="parentName">
+                    <br>
+
+                    <label for="email" class="form-label">Parent E-mail: </label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <br>
+                    
+                    <input type="submit" id="submit" class="btn btn-secondary" value="Register" name="action">
+
+                </div>
+              </fieldset>
+            </form>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

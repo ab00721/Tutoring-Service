@@ -32,6 +32,9 @@ class Controller
             case 'Sign Up':
                 $this->processShowSignUp();
                 break;
+            case 'Register':
+                $this->processShowRegister();
+                break;
             default:
                 $this->processShowHome();
                 break;
@@ -75,6 +78,14 @@ class Controller
      */
     private function processShowSignUp() {
         $template = $this->twig->load('signup.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the register page
+     */
+    private function processShowRegister() {
+        $template = $this->twig->load('register.twig');
         echo $template->render();
     }
     
