@@ -35,6 +35,9 @@ class Controller
             case 'Register':
                 $this->processShowRegister();
                 break;
+            case 'Login':
+                $this->processShowLogin();
+                break;
             default:
                 $this->processShowHome();
                 break;
@@ -86,6 +89,14 @@ class Controller
      */
     private function processShowRegister() {
         $template = $this->twig->load('register.twig');
+        echo $template->render();
+    }
+    
+    /**
+     * Handles the request to show the login page
+     */
+    private function processShowLogin() {
+        $template = $this->twig->load('login.twig');
         echo $template->render();
     }
     
