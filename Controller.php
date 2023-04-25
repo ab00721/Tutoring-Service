@@ -142,12 +142,12 @@ class Controller
      * Logs in the user with the credentials specified in the post array
      */
     private function processLogin() {
-        $username = 'mkeff';
-        $password = 'password';
+        $username = filter_input(INPUT_POST, 'username');
+        $password = filter_input(INPUT_POST, 'password');
         if ($this->db->isValidUserLogin($username, $password)) {
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
-            header("Location: .?action=Show Orders");
+            header("Location: .?action=Show Sign Up");
         } else {
             $login_message = 'Invalid username or password';
             $template = $this->twig->load('login.twig');
