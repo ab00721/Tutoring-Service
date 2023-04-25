@@ -27,29 +27,24 @@
                 <div class="mb-3 mt-3">
                     
                     <label for="username" class="form-label">Username: </label>
-                    <input type="text" class="form-control" id ="username" name="username">
-                    {{ error_username }}
-                    <br>
+                    <input type="text" class="form-control" id ="username" name="username" value="{{ username }}">
+                    <p class="error">{{ error_username }}</p>
                     
                     <label for="password" class="form-label">Password: </label>
-                    <input type="text" class="form-control" id ="password" name="password">
-                    {{ error_password }}
-                    <br>
+                    <input type="password" class="form-control" id ="password" name="password" value="{{ password }}">
+                    <p class="error">{{ error_password }}</p>
                     
                     <label for="firstName" class="form-label">Parent First Name: </label>
-                    <input type="text" class="form-control" id="firstName" name="firstName">
-                    {{ error_firstName }}
-                    <br>
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="{{ firstName }}">
+                    <p class="error">{{ error_firstName }}</p>
                     
                     <label for="lastName" class="form-label">Parent Last Name: </label>
-                    <input type="text" class="form-control" id="lastName" name="lastName">
-                    {{ error_lastName }}
-                    <br>
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="{{ lastName }}">
+                    <p class="error">{{ error_lastName }}</p>
 
                     <label for="email" class="form-label">Parent E-mail: </label>
-                    <input type="email" class="form-control" id="email" name="email">
-                    {{ error_email }}
-                    <br>
+                    <input type="text" class="form-control" id="email" name="email" value="{{ email }}">
+                    <p class="error">{{ error_email }}</p>
                     
                     <input type="submit" id="submit" class="btn btn-secondary" value="Register" name="action">
 
