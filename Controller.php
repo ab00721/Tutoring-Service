@@ -1,11 +1,14 @@
 <?php
 require_once './model/Database.php';
+require_once './model/Validator.php';
 require_once 'autoload.php';
 
 class Controller
 {
     private $twig;
     private $action;
+    private $validate;
+    private $fields;
     private $db;
     
     public function __construct() {
@@ -15,7 +18,14 @@ class Controller
         $this->connectToDatabase();
         $this->twig->addGlobal('session', $_SESSION);
         $this->action = $this->getAction();
-    }
+        $this->validate = new Validator();
+        $this->fields = $this->validate->getFields();
+        $this->fields->addField('username');
+        $this->fields->addField('password');
+        $this->fields->addField('firstName');
+        $this->fields->addField('lastName');
+        $this->fields->addField('email');
+        }
     
     public function invoke() {
         switch($this->action) {
@@ -94,13 +104,18 @@ class Controller
      * Handles the request to show the register page
      */
     private function processShowRegister() {
+        $username = '';
+        $password = '';
+        $firstName = '';
+        $lastName = '';
+        $email = '';
         $error_username = '';
         $error_password = '';
         $error_firstName = '';
         $error_lastName = '';
         $error_email = '';
         $template = $this->twig->load('register.twig');
-        echo $template->render(['error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+        echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
     }
     
     /**
@@ -118,15 +133,28 @@ class Controller
         $error_firstName = '';
         $error_lastName = '';
         $error_email = '';
-
-        if (!empty($error_username) || !empty($error_password)|| !empty($error_firstName)|| !empty($error_email)|| !empty($error_password)) {
+        
+        $this->validate->checkText('username', $username);
+        $this->validate->checkPassword('password', $password, $required = true);
+        $this->validate->checkText('firstName', $firstName);
+        $this->validate->checkText('lastName', $lastName);
+        $this->validate->checkEmail('email', $email);
+        
+        $error = $this->fields->hasErrors();
+        
+        if($error) {
+            $error_username = $this->fields->getField('username')->getHTML();
+            $error_password = $this->fields->getField('password')->getHTML();
+            $error_firstName = $this->fields->getField('firstName')->getHTML();
+            $error_lastName = $this->fields->getField('lastName')->getHTML();
+            $error_email = $this->fields->getField('email')->getHTML();
             $template = $this->twig->load('register.twig');
-            echo $template->render(['error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+            echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_password' => $error_password, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
         } else {
             $this->db->addUser($parentID, $username, $password, $firstName, $lastName, $email);
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
-            header("Location: .?action=Show Sign Up");
+            $this->processLogin();
         }
     }
     
@@ -173,6 +201,8 @@ class Controller
         $login_message = 'You have been logged out.';
         $template = $this->twig->load('login.twig');
         echo $template->render(['login_message' => $login_message]);
+        header("Location: .?action=Show Login");
+
     }
     
     /**
