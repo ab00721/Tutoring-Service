@@ -1,7 +1,11 @@
 <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-5">
-            <a class="navbar-brand" href=".?action=Home">Bright Minds Tutoring</a>
+            <a class="navbar-brand" href=".?action=Home">Bright Minds Tutoring
+                    {% if session.is_valid_user is defined %}
+                        - Hello, {{ session.username }}
+                    {% endif %}
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -10,12 +14,14 @@
                     <li class="nav-item"><a class="nav-link" href=".?action=Home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href=".?action=Tutors">Tutors</a></li>
                     <li class="nav-item"><a class="nav-link" href=".?action=Services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href=".?action=Price Quote">Price Quote</a></li>
+                    {% if session.is_valid_user is not defined %}
                     <li class="nav-item"><a class="nav-link" href=".?action=Show Register">Register</a></li>
                     <li class="nav-item"><a class="nav-link" href=".?action=Show Login">Login</a></li>
+                    {% else %}      
                     <li class="nav-item"><a class="nav-link" href=".?action=Show Sign Up">Sign Up</a></li>
                     <li class="nav-item"><a class="nav-link" href=".?action=Logout">Logout</a></li>
-                </ul>
+                    {% endif %}
+                    </ul>
             </div>
         </div>
     </nav>
