@@ -36,16 +36,19 @@
                     {{ error_password }}
                     <br>
                     
-                    <label for="parentFName" class="form-label">Parent First Name: </label>
-                    <input type="text" class="form-control" id="parentFName" name="parentFName">
+                    <label for="firstName" class="form-label">Parent First Name: </label>
+                    <input type="text" class="form-control" id="firstName" name="firstName">
+                    {{ error_firstName }}
                     <br>
                     
-                    <label for="parentLName" class="form-label">Parent Last Name: </label>
-                    <input type="text" class="form-control" id="parentLName" name="parentLName">
+                    <label for="lastName" class="form-label">Parent Last Name: </label>
+                    <input type="text" class="form-control" id="lastName" name="lastName">
+                    {{ error_lastName }}
                     <br>
 
                     <label for="email" class="form-label">Parent E-mail: </label>
                     <input type="email" class="form-control" id="email" name="email">
+                    {{ error_email }}
                     <br>
                     
                     <input type="submit" id="submit" class="btn btn-secondary" value="Register" name="action">
