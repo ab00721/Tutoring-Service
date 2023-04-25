@@ -55,18 +55,23 @@ class Database {
     }
     
     /**
-     * Adds the specified user to the table users
+     * Adds the specified user to the table parents
      * 
+     * @param type $parentID
      * @param type $username
      * @param type $password
+     * @param type $firstName
+     * @param type $lastName
+     * @param type $email
      */
-    public function addUser($username, $password, $firstName, $lastName, $email) {
+    public function addUser($parentID, $username, $password, $firstName, $lastName, $email) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $query = 'INSERT INTO parents (username, password, firstName, lastName, email)
-              VALUES (:username, :password, :firsName, :lastName, :email)';
+        $query = 'INSERT INTO parents (parentID, username, password, firstName, lastName, email)
+              VALUES (:parentID, :username, :hash, :firstName, :lastName, :email)';
         $statement = $this->db->prepare($query);
+        $statement->bindValue(':parentID', $parentID);
         $statement->bindValue(':username', $username);
-        $statement->bindValue(':password', $hash);
+        $statement->bindValue(':hash', $hash);
         $statement->bindValue(':firstName', $firstName);
         $statement->bindValue(':lastName', $lastName);
         $statement->bindValue(':email', $email);
