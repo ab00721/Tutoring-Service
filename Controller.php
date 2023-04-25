@@ -31,17 +31,26 @@ class Controller
             case 'Price Quote':
                 $this->processShowPriceQuote();
                 break;
-            case 'Register':
+            case 'Show Register':
                 $this->processShowRegister();
                 break;
-            case 'Login':
+            case 'Register':
+                $this->processRegister();
+                break;
+            case 'Show Login':
                 $this->processShowLogin();
                 break;
-            case 'Sign Up':
+            case 'Login':
+                $this->processLogin();
+                break;
+            case 'Show Sign Up':
                 $this->processShowSignUp();
                 break;
             case 'Logout':
                 $this->processLogout();
+                break;
+            case 'Show Orders':
+                $this->processShowOrders();
                 break;
             default:
                 $this->processShowHome();
@@ -85,8 +94,40 @@ class Controller
      * Handles the request to show the register page
      */
     private function processShowRegister() {
+        $error_username = '';
+        $error_password = '';
+        $error_firstName = '';
+        $error_lastName = '';
+        $error_email = '';
         $template = $this->twig->load('register.twig');
-        echo $template->render();
+        echo $template->render(['error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+    }
+    
+    /**
+     * Handles the request to Register new user
+     */
+    private function processRegister() {
+        $parentID = '';
+        $username = filter_input(INPUT_POST, 'username');
+        $password = filter_input(INPUT_POST, 'password');
+        $firstName = filter_input(INPUT_POST, 'firstName');
+        $lastName = filter_input(INPUT_POST, 'lastName');
+        $email = filter_input(INPUT_POST, 'email');
+        $error_username = '';
+        $error_password = '';
+        $error_firstName = '';
+        $error_lastName = '';
+        $error_email = '';
+
+        if (!empty($error_username) || !empty($error_password)|| !empty($error_firstName)|| !empty($error_email)|| !empty($error_password)) {
+            $template = $this->twig->load('register.twig');
+            echo $template->render(['error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+        } else {
+            $this->db->addUser($parentID, $username, $password, $firstName, $lastName, $email);
+            $_SESSION['is_valid_user'] = true;
+            $_SESSION['username'] = $username;
+            header("Location: .?action=Show Sign Up");
+        }
     }
     
     /**
@@ -98,6 +139,23 @@ class Controller
     }
     
     /**
+     * Logs in the user with the credentials specified in the post array
+     */
+    private function processLogin() {
+        $username = 'mkeff';
+        $password = 'password';
+        if ($this->db->isValidUserLogin($username, $password)) {
+            $_SESSION['is_valid_user'] = true;
+            $_SESSION['username'] = $username;
+            header("Location: .?action=Show Orders");
+        } else {
+            $login_message = 'Invalid username or password';
+            $template = $this->twig->load('login.twig');
+            echo $template->render(['login_message' => $login_message]);
+        }
+    }
+    
+    /**
      * Handles the request to show the signup page
      */
     private function processShowSignUp() {
@@ -106,11 +164,31 @@ class Controller
     }
     
     /**
-     * Handles the request to logout
+     * Clears all session data from memory and cleans up the session ID
+     * in order to logout the current user
      */
     private function processLogout() {
+        $_SESSION = array();
+        session_destroy();
+        $login_message = 'You have been logged out.';
         $template = $this->twig->load('login.twig');
-        echo $template->render();
+        echo $template->render(['login_message' => $login_message]);
+    }
+    
+    /**
+     * Shows the orders of the logged in user. If no user is logged in,
+     * shows the login page
+     */
+    private function processShowOrders() {
+        if (!isset($_SESSION['is_valid_user'])) {
+            $login_message = 'Log in to manage your tasks.';
+            $template = $this->twig->load('login.twig');
+            echo $template->render(['login_message' => $login_message]);
+        } else {
+            $errors = array();
+            $template = $this->twig->load('services.twig');
+            echo $template->render(['errors' => $errors, 'tasks' => $tasks]);
+        }
     }
     
     /**
