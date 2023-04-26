@@ -182,6 +182,20 @@ class Validator {
         $message = 'Password must be between 6 and 21 characters. Password must contain at least one lower case letter, one uppercase letter, and one digit.';
         $this->checkPattern($name, $value, $pattern, $message, $required);
     }
+    
+    public function checkDropdown($name, $value, $required = true) {
+        $field = $this->fields->getField($name);
+        $pattern = '/^[[:digit:]]$/';
+        $message = 'Please select an option from the dropdown.';
+        $this->checkPattern($name, $value, $pattern, $message, $required);
+    }
+    
+    public function checkRadio($name, $value, $required = true) {
+        $field = $this->fields->getField($name);
+        $pattern = '/^[[:digit:]]$/';
+        $message = 'Please select an option from the radio buttons.';
+        $this->checkPattern($name, $value, $pattern, $message, $required);
+    }
 
 }
 ?>

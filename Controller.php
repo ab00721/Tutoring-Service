@@ -27,6 +27,10 @@ class Controller
         $this->fields->addField('firstName');
         $this->fields->addField('lastName');
         $this->fields->addField('email');
+        $this->fields->addField('studentName');
+        $this->fields->addField('grade');
+        $this->fields->addField('subject');
+        $this->fields->addField('location');
         }
     
     public function invoke() {
@@ -186,11 +190,12 @@ class Controller
     private function processLogin() {
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
-
+        $ParentsTable = new ParentsTable($this->db);
+        
         if ($ParentsTable->isValidUserLogin($username, $password)) {
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
-            header("Location: .?action=Show Sign Up");
+            $this->processShowSignUp();
         } else {
             $login_message = 'Invalid username or password';
             $template = $this->twig->load('login.twig');
@@ -202,9 +207,8 @@ class Controller
      * Handles the request to show the signup page
      */
     private function processShowSignUp() {
-        $username = $_SESSION['username'];
         $ParentsTable = new ParentsTable($this->db);
-        $firstName = implode(" ", $ParentsTable->get_parent_name($username));
+        $firstName = implode(" ",$ParentsTable->get_parent_name($_SESSION['username']));
         $ServiceTable = new ServiceTable($this->db);
         $subjects = $ServiceTable->get_subjects();
         $locations = $ServiceTable->get_locations();
@@ -217,12 +221,34 @@ class Controller
      * Handles the request to signup for service
      */
     private function processSignUp() {
+        $ParentsTable = new ParentsTable($this->db);
+        $studentName = filter_input(INPUT_POST, 'studentName');
+        $grade = filter_input(INPUT_POST, 'grade');
+        $subject = filter_input(INPUT_POST, 'subject');
+        $location = filter_input(INPUT_POST, 'location');
+        $firstName = implode(" ",$ParentsTable->get_parent_name($_SESSION['username']));
         $ServiceTable = new ServiceTable($this->db);
         $subjects = $ServiceTable->get_subjects();
         $locations = $ServiceTable->get_locations();
-        $levels = $ServiceTable->get_levels();
-        $template = $this->twig->load('signup.twig');
-        echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels]);
+        $levels = $ServiceTable->get_levels();      
+        
+        $this->validate->checkText('studentName', $studentName);
+        $this->validate->checkDropdown('grade', $grade);
+        $this->validate->checkDropdown('subject', $subject);
+        $this->validate->checkRadio('location', $location);
+        $error = $this->fields->hasErrors();
+
+        if($error) {
+            $error_student = $this->fields->getField('studentName')->getHTML();
+            $error_level = $this->fields->getField('grade')->getHTML();
+            $error_subject = $this->fields->getField('subject')->getHTML();
+            $error_location = $this->fields->getField('location')->getHTML();
+            $template = $this->twig->load('signup.twig');
+            echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels, 'firstName' => $firstName, 'studentName' => $studentName, 'grade' => $grade, 'location' => $location, 'subject' => $subject, 'error_student' => $error_student, 'error_level' => $error_level, 'error_subject' => $error_subject, 'error_location' => $error_location]);
+        } else {
+            $this->processShowHome();
+        }
+       
     }
     
     /**
