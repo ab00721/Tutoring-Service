@@ -102,5 +102,8 @@ class Database {
         return password_verify($password, $hash);
     }
     
+    public function getDB(){
+        return $this->db;
+    }    
 }
 ?>
