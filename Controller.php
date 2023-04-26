@@ -1,7 +1,7 @@
 <?php
 require_once './model/Database.php';
 require_once './model/Validator.php';
-require_once './model/SubjectsTable.php';
+require_once './model/ServiceTable.php';
 require_once 'autoload.php';
 
 class Controller
@@ -89,10 +89,12 @@ class Controller
      * Handles the request to show the services page
      */
     private function processShowServices() {
-        $subjectsTable = new SubjectsTable($this->db);
-        $subjects = $subjectsTable->get_subjects();
+        $ServiceTable = new ServiceTable($this->db);
+        $subjects = $ServiceTable->get_subjects();
+        $locations = $ServiceTable->get_locations();
+        $levels = $ServiceTable->get_levels();
         $template = $this->twig->load('services.twig');
-        echo $template->render(['subjects' => $subjects]);
+        echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels]);
     }
     
     /**

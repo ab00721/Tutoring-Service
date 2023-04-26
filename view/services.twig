@@ -13,6 +13,8 @@
         <h2 class="fw-bolder">Tutoring Services</h2>
         <p class="lead mb-0">Subject, location, and grade level info.</p>
       </div>
+        
+      <!-- Subject services section-->
       <div class="row gx-5 justify-content-center">
         <div class="accordion" id="accordionExample">
           <div class="accordion-item">
@@ -33,6 +35,8 @@
               </div>
             </div>
           </div>
+               
+          <!-- Location services section-->
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -44,16 +48,15 @@
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
                   <ul>
-                      <li><strong>In-person tutoring</strong> 
-                          <br>In-person tutoring takes place in Sarasota. Your tutor meets you at the Fruitville
-                            Public Library at the intersection of Fruitville Rd and Lake Wood Ranch Blvd.</li>
-                      <li><strong>Online tutoring</strong> 
-                          <br>Online tutoring takes place via zoom. Your tutor will send you a zoom meeting
-                            invitation at least 24 hours before your scheduled meeting time.</li>
-                  </ul>  
+                    {% for item in locations %}
+                      <li>{{ item.location }}</li>
+                    {% endfor %}
+                  </ul>     
               </div>
             </div>
           </div>
+               
+          <!-- Grade level services section-->
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -65,11 +68,10 @@
               data-bs-parent="#accordionExample">
               <div class="accordion-body">
                 <ul>
-                      <li>Elementary School Level (K-5)</li>
-                      <li>Middle School Level (6-8)</li>
-                      <li>High School Level (9-12)</li>
-                      <li>College Level</li>
-                  </ul>  
+                    {% for item in levels %}
+                      <li>{{ item.level }}</li>
+                    {% endfor %}
+                  </ul>   
               </div>
             </div>
           </div>
