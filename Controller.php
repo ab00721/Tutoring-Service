@@ -2,6 +2,8 @@
 require_once './model/Database.php';
 require_once './model/Validator.php';
 require_once './model/ParentsTable.php';
+require_once './model/StudentsTable.php';
+require_once './model/OrdersTable.php';
 require_once './model/ServiceTable.php';
 require_once 'autoload.php';
 
@@ -221,12 +223,16 @@ class Controller
      * Handles the request to signup for service
      */
     private function processSignUp() {
+        $studentID = '';
+        $orderID = '';
         $ParentsTable = new ParentsTable($this->db);
         $studentName = filter_input(INPUT_POST, 'studentName');
         $grade = filter_input(INPUT_POST, 'grade');
         $subject = filter_input(INPUT_POST, 'subject');
         $location = filter_input(INPUT_POST, 'location');
-        $firstName = implode(" ",$ParentsTable->get_parent_name($_SESSION['username']));
+        $parent = $ParentsTable->get_parent($_SESSION['username']);
+        $parentID = $parent['parentID'];
+        $firstName = $parent['firstName'];
         $ServiceTable = new ServiceTable($this->db);
         $subjects = $ServiceTable->get_subjects();
         $locations = $ServiceTable->get_locations();
@@ -246,6 +252,14 @@ class Controller
             $template = $this->twig->load('signup.twig');
             echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels, 'firstName' => $firstName, 'studentName' => $studentName, 'grade' => $grade, 'location' => $location, 'subject' => $subject, 'error_student' => $error_student, 'error_level' => $error_level, 'error_subject' => $error_subject, 'error_location' => $error_location]);
         } else {
+            $StudentsTable = new StudentsTable($this->db);
+            $student = $StudentsTable->getStudent($parentID, $studentName);
+            if(empty($student)) {
+                $StudentsTable->addStudent($parentID, $studentID, $studentName);
+            }
+            $studentID = $student['studentID'];
+            $OrdersTable = new OrdersTable($this->db);
+            $OrdersTable->addOrder($orderID, $studentID, $subject, $location, $grade);
             $this->processShowHome();
         }
        
