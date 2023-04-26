@@ -58,6 +58,9 @@ class Controller
             case 'Show Sign Up':
                 $this->processShowSignUp();
                 break;
+            case 'Sign Up':
+                $this->processSignUp();
+                break;
             case 'Logout':
                 $this->processLogout();
                 break;
@@ -183,9 +186,7 @@ class Controller
     private function processLogin() {
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
-        
-        $ParentsTable = new ParentsTable($this->db);
- 
+
         if ($ParentsTable->isValidUserLogin($username, $password)) {
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
@@ -201,8 +202,27 @@ class Controller
      * Handles the request to show the signup page
      */
     private function processShowSignUp() {
+        $username = $_SESSION['username'];
+        $ParentsTable = new ParentsTable($this->db);
+        $firstName = implode(" ", $ParentsTable->get_parent_name($username));
+        $ServiceTable = new ServiceTable($this->db);
+        $subjects = $ServiceTable->get_subjects();
+        $locations = $ServiceTable->get_locations();
+        $levels = $ServiceTable->get_levels();
         $template = $this->twig->load('signup.twig');
-        echo $template->render();
+        echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels, 'firstName' => $firstName]);
+    }
+    
+    /**
+     * Handles the request to signup for service
+     */
+    private function processSignUp() {
+        $ServiceTable = new ServiceTable($this->db);
+        $subjects = $ServiceTable->get_subjects();
+        $locations = $ServiceTable->get_locations();
+        $levels = $ServiceTable->get_levels();
+        $template = $this->twig->load('signup.twig');
+        echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels]);
     }
     
     /**
