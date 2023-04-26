@@ -1,6 +1,7 @@
 <?php
 require_once './model/Database.php';
 require_once './model/Validator.php';
+require_once './model/ParentsTable.php';
 require_once './model/ServiceTable.php';
 require_once 'autoload.php';
 
@@ -120,7 +121,7 @@ class Controller
         $error_lastName = '';
         $error_email = '';
         $template = $this->twig->load('register.twig');
-        echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+        echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_password' => $error_password, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
     }
     
     /**
@@ -156,7 +157,8 @@ class Controller
             $template = $this->twig->load('register.twig');
             echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_password' => $error_password, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
         } else {
-            $this->db->addUser($parentID, $username, $password, $firstName, $lastName, $email);
+            $ParentsTable = new ParentsTable($this->db);
+            $ParentsTable->addUser($parentID, $username, $password, $firstName, $lastName, $email);
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
             $this->processLogin();
@@ -167,8 +169,12 @@ class Controller
      * Handles the request to show the login page
      */
     private function processShowLogin() {
+        $username = filter_input(INPUT_POST, 'username');
+        $password = filter_input(INPUT_POST, 'password');
+        $error_username = '';
+        $error_password = '';
         $template = $this->twig->load('login.twig');
-        echo $template->render();
+        echo $template->render(['username' => $username, 'password' => $password, 'error_username' => $error_username, 'error_password' => $error_password]);
     }
     
     /**
@@ -177,7 +183,10 @@ class Controller
     private function processLogin() {
         $username = filter_input(INPUT_POST, 'username');
         $password = filter_input(INPUT_POST, 'password');
-        if ($this->db->isValidUserLogin($username, $password)) {
+        
+        $ParentsTable = new ParentsTable($this->db);
+ 
+        if ($ParentsTable->isValidUserLogin($username, $password)) {
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
             header("Location: .?action=Show Sign Up");
