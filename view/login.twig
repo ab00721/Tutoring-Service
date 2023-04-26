@@ -26,20 +26,19 @@
               <fieldset class="border bg-white px-5 py-3 mb-5">
                 <div class="mb-3 mt-3">
                     
+                    <p class="error">{{ login_message }}</p>
+                    
                     <label for="username" class="form-label">Username: </label>
-                    <input type="text" class="form-control" id ="username" name="username">
-                    {{ error_username }}
-                    <br>
+                    <input type="text" class="form-control" id ="username" name="username" value="{{ username }}">
+                    <p class="error">{{ error_username }}</p>
                     
                     <label for="password" class="form-label">Password: </label>
-                    <input type="text" class="form-control" id ="password" name="password">
-                    {{ error_password }}
-                    <br>
+                    <input type="password" class="form-control" id ="password" name="password" value="{{ password }}">
+                    <p class="error">{{ error_password }}</p>
                     
                     <input type="submit" id="submit" class="btn btn-secondary" value="Login" name="action">
                     <br>
                     <br>
-                    <p>{{ login_message }}</p>
                 </div>
               </fieldset>
             </form>
