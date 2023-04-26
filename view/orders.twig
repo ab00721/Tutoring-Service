@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{{ include('shared/header.twig') }}
+
+<body>
+    {{ include('shared/nav.twig') }}
+
+  <!-- Services section-->
+  <section class="bg-light py-5 border-bottom">
+    <div class="container px-5 my-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bolder">Review Orders</h2>
+        <p class="lead mb-0">Thank you for signing up! One of our tutors 
+            will reach out to you within 2 business days. <br> If you'd like to 
+            sign up another student or sign up for another subject, please 
+            fill out another <a href=".?action=Show Sign Up">form.</a></p>
+      </div>
+        <div class="row gx-5 justify-content-center">
+        <div class="flex-shrink-0">
+        <div class="container">
+        <div class="border bg-white px-5 py-3 mb-5">
+            <table class="table">
+             <thead>
+               <tr>
+                 <th scope="col">Student</th>
+                 <th scope="col">Subject</th>
+                 <th scope="col">Grade</th>
+                 <th scope="col">Location</th>
+                </tr>
+             </thead>
+             <tbody>
+               <tr>
+                 <th scope="row">1</th>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+               </tr>
+               <tr>
+                 <th scope="row">2</th>
+                 <td></td>
+                 <td></td>
+                 <td></td>
+               </tr>
+             </tbody>
+            </table>
+        </div>
+        </div>
+        </div>
+       </div>
+       
+    </div>
+  </section>
+
+    {{ include('shared/footer.twig') }}
+    {{ include('shared/script.twig') }}
+</body>
+
+</html>

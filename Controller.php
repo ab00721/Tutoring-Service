@@ -260,7 +260,7 @@ class Controller
             $studentID = $student['studentID'];
             $OrdersTable = new OrdersTable($this->db);
             $OrdersTable->addOrder($orderID, $studentID, $subject, $location, $grade);
-            $this->processShowHome();
+            $this->processShowOrders();
         }
        
     }
@@ -284,15 +284,8 @@ class Controller
      * shows the login page
      */
     private function processShowOrders() {
-        if (!isset($_SESSION['is_valid_user'])) {
-            $login_message = 'Log in to manage your tasks.';
-            $template = $this->twig->load('login.twig');
-            echo $template->render(['login_message' => $login_message]);
-        } else {
-            $errors = array();
-            $template = $this->twig->load('services.twig');
-            echo $template->render(['errors' => $errors, 'tasks' => $tasks]);
-        }
+        $template = $this->twig->load('orders.twig');
+        echo $template->render();
     }
     
     /**
