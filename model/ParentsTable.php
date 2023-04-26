@@ -8,11 +8,11 @@ class ParentsTable {
         $this->db = $db;
     }
         
-    function get_parent($parentID) {
-        $query = 'SELECT * FROM parents
-              WHERE parentID = :parentID';
+    function get_parent_name($username) {
+        $query = 'SELECT firstName FROM parents
+              WHERE username = :username';
         $statement = $this->db->getDB()->prepare($query);
-        $statement->bindValue(':parentID', $parentID);
+        $statement->bindValue(':username', $username);
         $statement->execute();
         $parent = $statement->fetch();
         $statement->closeCursor();
