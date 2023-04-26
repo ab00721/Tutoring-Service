@@ -19,6 +19,17 @@ class ParentsTable {
         return $parent;
     }
     
+    function get_parent($username) {
+        $query = 'SELECT * FROM parents
+              WHERE username = :username';
+        $statement = $this->db->getDB()->prepare($query);
+        $statement->bindValue(':username', $username);
+        $statement->execute();
+        $parent = $statement->fetch();
+        $statement->closeCursor();
+        return $parent;
+    }
+    
     /**
      * Checks if the specified username is in this database
      * 
