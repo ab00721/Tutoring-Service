@@ -25,7 +25,7 @@ class ServiceTable {
         $statement->execute();
         $subject = $statement->fetch();
         $statement->closeCursor();
-        return $subject;
+        return $subject[1];
     }
     
     function get_locations() {
@@ -45,7 +45,7 @@ class ServiceTable {
         $statement->execute();
         $location = $statement->fetch();
         $statement->closeCursor();
-        return $location;
+        return $location[1];
     }
     
     function get_levels() {
@@ -65,7 +65,7 @@ class ServiceTable {
         $statement->execute();
         $level = $statement->fetch();
         $statement->closeCursor();
-        return $level;
+        return $level[1];
     }
 
 }
