@@ -26,6 +26,8 @@
               <fieldset class="border bg-white px-5 py-3 mb-5">
                 <div class="mb-3 mt-3">
                     
+                    <p class="error">{{ error_message }}</p>
+                    
                     <label for="username" class="form-label">Username: </label>
                     <input type="text" class="form-control" id ="username" name="username" value="{{ username }}">
                     <p class="error">{{ error_username }}</p>
