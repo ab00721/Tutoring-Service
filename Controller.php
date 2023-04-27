@@ -138,10 +138,10 @@ class Controller
      */
     private function processRegister() {
         $parentID = '';
-        $username = filter_input(INPUT_POST, 'username');
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password');
-        $firstName = filter_input(INPUT_POST, 'firstName');
-        $lastName = filter_input(INPUT_POST, 'lastName');
+        $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email');
         $error_username = '';
         $error_password = '';
@@ -179,7 +179,7 @@ class Controller
      * Handles the request to show the login page
      */
     private function processShowLogin() {
-        $username = filter_input(INPUT_POST, 'username');
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password');
         $error_username = '';
         $error_password = '';
@@ -191,7 +191,7 @@ class Controller
      * Logs in the user with the credentials specified in the post array
      */
     private function processLogin() {
-        $username = filter_input(INPUT_POST, 'username');
+        $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $password = filter_input(INPUT_POST, 'password');
         $ParentsTable = new ParentsTable($this->db);
         
