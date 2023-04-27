@@ -25,6 +25,34 @@ class StudentsTable {
     }
     
     /**
+     * Checks if the specified student already exists 
+     */
+    public function getStudents($parentID) {
+        $query = 'SELECT * FROM students 
+                    WHERE parentID = :parentID';
+        $statement = $this->db->getDB()->prepare($query);
+        $statement->bindValue(':parentID', $parentID);
+        $statement->execute();
+        $student = $statement->fetch();
+        $statement->closeCursor();
+        return $student;
+    }
+    
+    /**
+     * Checks if the specified student already exists 
+     */
+    public function getStudentByID($studentID) {
+        $query = 'SELECT * FROM students 
+                    WHERE studentID = :studentID';
+        $statement = $this->db->getDB()->prepare($query);
+        $statement->bindValue(':studentID', $studentID);
+        $statement->execute();
+        $student = $statement->fetch();
+        $statement->closeCursor();
+        return $student;
+    }
+    
+    /**
      * Adds the specified student to the table parents
      */
     public function addStudent($parentID, $studentID, $studentName) {
