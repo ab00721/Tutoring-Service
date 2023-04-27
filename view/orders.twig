@@ -6,6 +6,20 @@
 <body>
     {{ include('shared/nav.twig') }}
 
+    {% if orders|length < 1 %}
+    <section class="bg-light py-5 border-bottom">
+    <div class="container px-5 my-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bolder">Review Orders</h2>
+        <p class="lead mb-0">Thanks for registering with Bright Minds Tutoring! 
+            <br>Please use the <a href=".?action=Show Sign Up">Sign Up Form</a> to 
+            schedule a tutoring session. <br>You currently have 0 students signed up.</p>
+      </div>
+        </div>
+    </section>
+        
+        
+    {% else %}
   <!-- Services section-->
   <section class="bg-light py-5 border-bottom">
     <div class="container px-5 my-5">
@@ -20,28 +34,24 @@
         <div class="flex-shrink-0">
         <div class="container">
         <div class="border bg-white px-5 py-3 mb-5">
-            <table class="table">
+            <table class="table table-responsive table-mobile-responsive">
              <thead>
                <tr>
                  <th scope="col">Student</th>
                  <th scope="col">Subject</th>
-                 <th scope="col">Grade</th>
                  <th scope="col">Location</th>
+                 <th scope="col">Grade Level</th>
                 </tr>
              </thead>
              <tbody>
+               {% for order in orders %}
                <tr>
-                 <th scope="row">1</th>
-                 <td></td>
-                 <td></td>
-                 <td></td>
+                 <td>{{ order.studentName }}</td>
+                 <td>{{ order.subject }}</td>
+                 <td>{{ order.location }}</td>
+                 <td>{{ order.level }}</td>
                </tr>
-               <tr>
-                 <th scope="row">2</th>
-                 <td></td>
-                 <td></td>
-                 <td></td>
-               </tr>
+               {% endfor %}
              </tbody>
             </table>
         </div>
@@ -51,7 +61,7 @@
        
     </div>
   </section>
-
+{% endif %}
     {{ include('shared/footer.twig') }}
     {{ include('shared/script.twig') }}
 </body>
