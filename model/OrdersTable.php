@@ -8,17 +8,29 @@ class OrdersTable {
         $this->db = $db;
     }
 
-    public function addOrder($orderID, $studentID, $subjectID, $locationID, $levelID) {
-        $query = 'INSERT INTO orders (orderID, studentID, subjectID, locationID, levelID)
-              VALUES (:orderID, :studentID, :subjectID, :locationID, :levelID)';
+    public function addOrder($orderID, $parentID, $studentName, $subject, $location, $level) {
+        $query = 'INSERT INTO orders (orderID, parentID, studentName, subject, location, level)
+              VALUES (:orderID, :parentID, :studentName, :subject, :location, :level)';
         $statement = $this->db->getDB()->prepare($query);
         $statement->bindValue(':orderID', $orderID);
-        $statement->bindValue(':studentID', $studentID);
-        $statement->bindValue(':subjectID', $subjectID);
-        $statement->bindValue(':locationID', $locationID);
-        $statement->bindValue(':levelID', $levelID);
+        $statement->bindValue(':parentID', $parentID);
+        $statement->bindValue(':studentName', $studentName);
+        $statement->bindValue(':subject', $subject);
+        $statement->bindValue(':location', $location);
+        $statement->bindValue(':level', $level);
         $statement->execute();
         $statement->closeCursor();
+    }
+    
+    public function getOrders($parentID) {
+        $query = 'SELECT * FROM orders
+              WHERE parentID = :parentID';
+        $statement = $this->db->getDB()->prepare($query);
+        $statement->bindValue(':parentID', $parentID);
+        $statement->execute();
+        $orders = $statement->fetchAll();
+        $statement->closeCursor();
+        return $orders;
     }
     
 }
