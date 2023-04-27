@@ -30,6 +30,17 @@ class ParentsTable {
         return $parent;
     }
     
+    function get_parent_by_email($email) {
+        $query = 'SELECT * FROM parents
+              WHERE email = :email';
+        $statement = $this->db->getDB()->prepare($query);
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+        $parent = $statement->fetch();
+        $statement->closeCursor();
+        return $parent;
+    }
+    
     /**
      * Checks if the specified username is in this database
      * 
