@@ -143,6 +143,7 @@ class Controller
         $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_input(INPUT_POST, 'email');
+        $error_message = '';
         $error_username = '';
         $error_password = '';
         $error_firstName = '';
@@ -157,6 +158,18 @@ class Controller
         
         $error = $this->fields->hasErrors();
         
+        $ParentsTable = new ParentsTable($this->db);
+        $parent = $ParentsTable->get_parent($username);
+        if(!empty($parent)) {
+            $error = true;
+            $error_message = 'Username is taken, please try a different one.';
+        }
+        $parent = $ParentsTable->get_parent_by_email($email);
+        if(!empty($parent)) {
+            $error = true;
+            $error_message = 'User with same email already exists. Please login to sign up for a session or view orders.';
+        }
+        
         if($error) {
             $error_username = $this->fields->getField('username')->getHTML();
             $error_password = $this->fields->getField('password')->getHTML();
@@ -164,7 +177,7 @@ class Controller
             $error_lastName = $this->fields->getField('lastName')->getHTML();
             $error_email = $this->fields->getField('email')->getHTML();
             $template = $this->twig->load('register.twig');
-            echo $template->render(['username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_password' => $error_password, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
+            echo $template->render(['error_message' => $error_message, 'username' => $username, 'password' => $password, 'firstName' => $firstName, 'lastName' => $lastName, 'email' => $email, 'error_username' => $error_username, 'error_password' => $error_password, 'error_firstName' => $error_firstName, 'error_lastName' => $error_lastName, 'error_email' => $error_email]);
         } else {
             $ParentsTable = new ParentsTable($this->db);
             $ParentsTable->addUser($parentID, $username, $password, $firstName, $lastName, $email);
