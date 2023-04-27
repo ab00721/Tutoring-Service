@@ -170,6 +170,7 @@ class Controller
             $ParentsTable->addUser($parentID, $username, $password, $firstName, $lastName, $email);
             $_SESSION['is_valid_user'] = true;
             $_SESSION['username'] = $username;
+            $_SESSION['firstName'] = $firstName;
             $this->processLogin();
         }
     }
@@ -223,13 +224,13 @@ class Controller
      * Handles the request to signup for service
      */
     private function processSignUp() {
-        $studentID = '';
         $orderID = '';
+        $studentID = '';
         $ParentsTable = new ParentsTable($this->db);
         $studentName = filter_input(INPUT_POST, 'studentName');
-        $grade = filter_input(INPUT_POST, 'grade');
-        $subject = filter_input(INPUT_POST, 'subject');
-        $location = filter_input(INPUT_POST, 'location');
+        $gradeID = filter_input(INPUT_POST, 'grade');
+        $subjectID = filter_input(INPUT_POST, 'subject');
+        $locationID = filter_input(INPUT_POST, 'location');
         $parent = $ParentsTable->get_parent($_SESSION['username']);
         $parentID = $parent['parentID'];
         $firstName = $parent['firstName'];
@@ -239,9 +240,9 @@ class Controller
         $levels = $ServiceTable->get_levels();      
         
         $this->validate->checkText('studentName', $studentName);
-        $this->validate->checkDropdown('grade', $grade);
-        $this->validate->checkDropdown('subject', $subject);
-        $this->validate->checkRadio('location', $location);
+        $this->validate->checkDropdown('grade', $gradeID);
+        $this->validate->checkDropdown('subject', $subjectID);
+        $this->validate->checkRadio('location', $locationID);
         $error = $this->fields->hasErrors();
 
         if($error) {
@@ -250,19 +251,38 @@ class Controller
             $error_subject = $this->fields->getField('subject')->getHTML();
             $error_location = $this->fields->getField('location')->getHTML();
             $template = $this->twig->load('signup.twig');
-            echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels, 'firstName' => $firstName, 'studentName' => $studentName, 'grade' => $grade, 'location' => $location, 'subject' => $subject, 'error_student' => $error_student, 'error_level' => $error_level, 'error_subject' => $error_subject, 'error_location' => $error_location]);
+            echo $template->render(['subjects' => $subjects, 'locations' => $locations, 'levels' => $levels, 'firstName' => $firstName, 'studentName' => $studentName, 'grade' => $gradeID, 'location' => $locationID, 'subject' => $subjectID, 'error_student' => $error_student, 'error_level' => $error_level, 'error_subject' => $error_subject, 'error_location' => $error_location]);
         } else {
             $StudentsTable = new StudentsTable($this->db);
             $student = $StudentsTable->getStudent($parentID, $studentName);
             if(empty($student)) {
                 $StudentsTable->addStudent($parentID, $studentID, $studentName);
+                $student = $StudentsTable->getStudent($parentID, $studentName);
             }
             $studentID = $student['studentID'];
+            $studentName = $student['studentName'];
+            $subject = $ServiceTable->get_subject($subjectID);
+            $location = $ServiceTable->get_location($locationID);
+            $grade = $ServiceTable->get_level($gradeID);
             $OrdersTable = new OrdersTable($this->db);
-            $OrdersTable->addOrder($orderID, $studentID, $subject, $location, $grade);
+            $OrdersTable->addOrder($orderID, $parentID, $studentName, $subject, $location, $grade);
             $this->processShowOrders();
         }
        
+    }
+    
+    /**
+     * Shows the orders of the logged in user. If no user is logged in,
+     * shows the login page
+     */
+    private function processShowOrders() {
+        $ParentsTable = new ParentsTable($this->db);
+        $parent = $ParentsTable->get_parent($_SESSION['username']);
+        $parentID = $parent['parentID'];
+        $OrdersTable = new OrdersTable($this->db);
+        $orders = $OrdersTable->getOrders($parentID);
+        $template = $this->twig->load('orders.twig');
+        echo $template->render(['orders' => $orders]);
     }
     
     /**
@@ -276,16 +296,6 @@ class Controller
         $template = $this->twig->load('login.twig');
         echo $template->render(['login_message' => $login_message]);
         header("Location: .?action=Show Login");
-
-    }
-    
-    /**
-     * Shows the orders of the logged in user. If no user is logged in,
-     * shows the login page
-     */
-    private function processShowOrders() {
-        $template = $this->twig->load('orders.twig');
-        echo $template->render();
     }
     
     /**
